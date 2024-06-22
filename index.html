@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Table</title>
+    <div id="contenedor"></div>
+</head>
+<body>
+
+    <script>
+        // URL de la API o el endpoint donde se obtiene el JSON
+        const apiUrl = 'https://francozuniga32.github.io/timtable/data.json'; // Reemplaza esta URL con la real
+
+        // Función para obtener los datos y mostrarlos en el documento
+        async function obtenerDatos() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta de la red');
+                }
+                const data = await response.json();
+                
+                const contenedor = document.getElementById('contenedor');
+                data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <p><strong>Descripción:</strong> ${item.descripcion}</p>
+                        <p><strong>Hora Inicio:</strong> ${item.hora_inicio}</p>
+                        <p><strong>Hora Fin:</strong> ${item.hora_fin}</p>
+                        <p><strong>Día:</strong> ${item.dia}</p>
+                        <p><strong>Estado:</strong> ${item.estado}</p>
+                        <hr>
+                    `;
+                    contenedor.appendChild(div);
+                });
+            } catch (error) {
+                console.error('Hubo un problema con la operación fetch:', error);
+            }
+        }
+
+        // Llamar a la función para obtener y mostrar los datos al cargar la página
+        obtenerDatos();
+    </script>
+</body>
+
+</html>
